@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" href="__STATIC__/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="__STATIC__/css/font.css">
+    <link rel="stylesheet" href="__STATIC__/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="__STATIC__/js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="x-body">
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">新增菜品</li>
+            <li>选择菜品</li>
+        </ul>
+        <div style="height: 10px"></div>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form" id="form1">
+                    <div class="layui-row">
+                        <div class="layui-col-md4">
+                            <div class="layui-form-item">
+                                <label  class="layui-form-label">
+                                    <span class="x-red">*</span>店铺选择
+                                </label>
+                                <div class="layui-input-inline">
+                                    <select name="shop_id" lay-verify="required" >
+                                        <option value="0">请选择</option>
+                                        {volist name="data.shop" id="vo"}
+                                        <option value="{$vo.id}">{$vo.shop_name}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label  class="layui-form-label">
+                                    <span class="x-red">*</span>分类选择
+                                </label>
+                                <div class="layui-input-inline">
+                                    <select name="category" lay-verify="required">
+                                        <option value="0">请选择</option>
+                                        {volist name="data.category" id="vo"}
+                                        <option value="{$vo.id}">{$vo.category_name}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label  class="layui-form-label">
+                                    <span class="x-red">*</span>菜品名称
+                                </label>
+                                <div class="layui-input-inline">
+                                    <input type="text"  name="foods_name" required="" lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label  class="layui-form-label">
+                                    <span class="x-red">*</span>菜品介绍
+                                </label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="introduce" required="" lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item" id="img">
+                                <label class="layui-form-label">
+                                    <span class="x-red">*</span>菜品图片
+                                </label>
+                                <button type="button" class="layui-btn" id="foods_img">
+                                    <i class="layui-icon">&#xe67c;</i>上传图片
+                                </button>
+                            </div>
+                            <div class="layui-upload">
+                              <label class="layui-form-label">
+                                    <span class="x-red">*</span>菜品图片组
+                                </label>
+							  <button type="button" class="layui-btn" id="test2">多图片上传</button> 
+							  <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+							    <div class="layui-upload-list" id="demo2"></div>
+							 </blockquote>
+							</div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">
+                                    <span class="x-red">*</span>单价
+                                </label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="price" required="" lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">
+                                    选择厨师
+                                </label>
+                                <div class="layui-input-inline">
+                                    <select name="cook_id" lay-verify="required" >
+                                        <option value="0">请选择</option>
+                                        <option value="1">王秦博</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">
+                                    <span class="x-red">*</span>状态
+                                </label>
+                                <div class="layui-input-inline">
+                                    <input type="radio" name="status" value="1" title="正常" checked>
+                                    <input type="radio" name="status" value="0" title="禁用" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md8" id="spec">
+                            <div class="layui-form-item">
+                                <div id="addSpec" class="layui-btn layui-btn-sm"><i class="layui-icon"></i>添加规格</div>
+                                <div id="delSpec" class="layui-btn layui-bg-red layui-btn-sm"><i class="layui-icon layui-icon-delete"></i>重置规格</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label  class="layui-form-label">
+                        </label>
+                        <button class="layui-btn" lay-filter="add" lay-submit="">
+                            增加
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-tab-item">
+                <form class="layui-form" id="form2">
+                    <div class="layui-row">
+                        <div class="layui-col-md4">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">
+                                    <span class="x-red">*</span>店铺选择
+                                </label>
+                                <div class="layui-input-inline">
+                                    <select name="shop_id" lay-verify="required" >
+                                        <option value="0">请选择</option>
+                                        {volist name="data.shop" id="vo"}
+                                        <option value="{$vo.id}">{$vo.shop_name}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label  class="layui-form-label">
+                                    <span class="x-red">*</span>分类选择
+                                </label>
+                                <div class="layui-input-inline">
+                                    <select name="category" lay-verify="required">
+                                        <option value="0">请选择</option>
+                                        {volist name="data.category" id="vo"}
+                                        <option value="{$vo.id}">{$vo.category_name}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label  class="layui-form-label">
+                                    <span class="x-red">*</span>菜品名称
+                                </label>
+                                <!--<div class="layui-input-inline">-->
+                                    <!--<input type="text"  name="foods_name" required="" lay-verify="required"-->
+                                           <!--autocomplete="off" class="layui-input">-->
+                                <!--</div>-->
+                                <div class="layui-input-inline">
+                                    <select name="fu_id" lay-verify="required" lay-filter="food">
+                                        <option value="0">请选择</option>
+                                        {volist name="data.food" id="vo"}
+                                        <option value="{$vo.id}">{$vo.food_name}</option>
+                                        {/volist}
+                                    </select>
+                                    <input type="hidden" name="fu_name" value="">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label  class="layui-form-label">
+                                    <span class="x-red">*</span>菜品介绍
+                                </label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="introduce" required="" lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item" id="img2">
+                                <label  class="layui-form-label">
+                                    <span class="x-red">*</span>菜品图片
+                                </label>
+                                <button type="button" class="layui-btn" id="foods_img2">
+                                    <i class="layui-icon">&#xe67c;</i>上传图片
+                                </button>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">
+                                    <span class="x-red">*</span>单价
+                                </label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="price" required="" lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">
+                                    选择厨师
+                                </label>
+                                <div class="layui-input-inline">
+                                    <select name="cook_id" lay-verify="required" >
+                                        <option value="0">请选择</option>
+                                        <option value="1">王秦博</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">
+                                    <span class="x-red">*</span>状态
+                                </label>
+                                <div class="layui-input-inline">
+                                    <input type="radio" name="status" value="1" title="正常" checked>
+                                    <input type="radio" name="status" value="0" title="禁用" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md8" id="spec2">
+                            <div class="layui-form-item">
+                                <div id="addSpec2" class="layui-btn layui-btn-sm"><i class="layui-icon"></i>添加规格</div>
+                                <div id="delSpec2" class="layui-btn layui-bg-red layui-btn-sm"><i class="layui-icon layui-icon-delete"></i>重置规格</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label  class="layui-form-label">
+                        </label>
+                        <button class="layui-btn" lay-filter="add2" lay-submit="">
+                            增加
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    layui.use(['form', 'layer','element','upload'], function () {
+        $ = layui.jquery;
+        var form = layui.form
+            , element = layui.element
+            , layer = layui.layer
+            ,upload = layui.upload;
+
+        var uploadInst = upload.render({
+            elem: '#foods_img' //绑定元素
+            ,url: '{:url("shop/shopImage")}' //上传接口
+            ,done: function(res){
+                $('#img').children("img").remove();
+                $('#img').children(".shop_image").remove();
+                $('#img').append("<img src='"+res.filename+"' width='150px' height='60px' alt='...'>");
+                $('#img').append("<input class='foods_image' value='"+res.filename+"'name='foods_image'type='hidden'>");
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+        var uploadInst = upload.render({
+            elem: '#foods_img2' //绑定元素
+            ,url: '{:url("shop/shopImage")}' //上传接口
+            ,done: function(res){
+                $('#img2').children("img2").remove();
+                $('#img2').children(".shop_image").remove();
+                $('#img2').append("<img src='"+res.filename+"' width='150px' height='60px' alt='...'>");
+                $('#img2').append("<input class='foods_image' value='"+res.filename+"'name='foods_image'type='hidden'>");
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+        var uploadInst = upload.render({
+            elem: '#test2' //绑定元素
+            ,url: '{:url("shop/shopImage")}' //上传接口
+            ,done: function(res){
+                $('#demo2').append("<img src='"+res.filename+"' width='150px' height='60px' alt='...'>");
+                $('#demo2').append("<input class='foods_image' value='"+res.filename+"'name='foods_images[]'type='hidden'>");
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+        form.on('select(food)',function (data) {
+            $.post('{:url("foods/foodData")}',{'fu_id':data.value},function (res) {
+                console.log(res);
+                $('input[name="fu_id"]').val(res.id);
+                $('input[name="price"]').val(res.price);
+                form.render();
+            });
+        });
+
+
+        //新增规格
+        var kk=1;
+        $(document).on('click', '#addSpec', function(data) {
+            var length=$("#spec").children(".lay-spec").length;
+            if(length==0){
+                kk=1;
+            }else{
+                kk=$("#spec").children(".lay-spec:last-child").find(".layui-form-item .layui-input-inline .spec_key").val();
+                kk=Number(kk)+1;
+            }
+            console.log('spec',kk);
+            // var onetext='<div class="layui-form-item"> <div class="layui-form-item"><label class="layui-form-label"><span class="x-red">*</span>规格 </label><div class="layui-input-inline"><input type="text" name="spec_name[]" required="" lay-verify="required" autocomplete="off" class="layui-input"> </div><div  class="layui-btn layui-bg-blue layui-btn-sm"><i class="layui-icon"></i>添加属性</div> </div></div>';
+            var onetext = '                            <div class="layui-form-item lay-spec">\n' +
+                '                                <div class="layui-form-item">\n' +
+                '                                    <label class="layui-form-label">\n' +
+                '                                        <span class="x-red">*</span>规格\n' +
+                '                                    </label>\n' +
+                '                                    <div class="layui-input-inline">\n' +
+                '                                        <input type="text" name="spec_name[]" required="" lay-verify="required"\n' +
+                '                                               autocomplete="off" class="layui-input">\n' +
+                '                                        <input type="hidden" name="spec_key[]" value="'+kk+'" required="" lay-verify="required"\n' +
+                '                                               autocomplete="off" class="layui-input spec_key">\n' +
+                '                                    </div>\n' +
+                '                                    <div  class="layui-btn layui-bg-blue layui-btn-sm spec-add"><i class="layui-icon"></i>添加属性</div>\n' +
+                '                                    <div  class="layui-btn layui-bg-red layui-btn-sm spec-del"><i class="layui-icon layui-icon-delete"></i>删除规格</div>\n' +
+                '                                </div>\n' +
+                '                            </div>';
+            $("#spec").append(onetext);
+            form.render();
+        });
+
+        $(document).on('click', '#addSpec2', function(data) {
+            var length=$("#spec2").children(".lay-spec").length;
+            if(length==0){
+                kk=1;
+            }else{
+                kk=$("#spec2").children(".lay-spec:last-child").find(".layui-form-item .layui-input-inline .spec_key").val();
+                kk=Number(kk)+1;
+            }
+            console.log('spec',kk);
+            // var onetext='<div class="layui-form-item"> <div class="layui-form-item"><label class="layui-form-label"><span class="x-red">*</span>规格 </label><div class="layui-input-inline"><input type="text" name="spec_name[]" required="" lay-verify="required" autocomplete="off" class="layui-input"> </div><div  class="layui-btn layui-bg-blue layui-btn-sm"><i class="layui-icon"></i>添加属性</div> </div></div>';
+            var onetext = '                            <div class="layui-form-item lay-spec">\n' +
+                '                                <div class="layui-form-item">\n' +
+                '                                    <label class="layui-form-label">\n' +
+                '                                        <span class="x-red">*</span>规格\n' +
+                '                                    </label>\n' +
+                '                                    <div class="layui-input-inline">\n' +
+                '                                        <input type="text" name="spec_name[]" required="" lay-verify="required"\n' +
+                '                                               autocomplete="off" class="layui-input">\n' +
+                '                                        <input type="hidden" name="spec_key[]" value="'+kk+'" required="" lay-verify="required"\n' +
+                '                                               autocomplete="off" class="layui-input spec_key">\n' +
+                '                                    </div>\n' +
+                '                                    <div  class="layui-btn layui-bg-blue layui-btn-sm spec-add"><i class="layui-icon"></i>添加属性</div>\n' +
+                '                                    <div  class="layui-btn layui-bg-red layui-btn-sm spec-del"><i class="layui-icon layui-icon-delete"></i>删除规格</div>\n' +
+                '                                </div>\n' +
+                '                            </div>';
+            $("#spec2").append(onetext);
+            form.render();
+        });
+        //新增属性
+        $(document).on('click','.spec-add',function () {
+            var key = $(this).siblings('.layui-input-inline').children('.spec_key').val();
+            console.log('fuid',key);
+            var index = $(this).parent().parent(".layui-form-item");
+            var text = '                                <div class="layui-form-item">\n' +
+                '                                    <label class="layui-form-label">\n' +
+                '                                        <span class="x-red">*</span>属性\n' +
+                '                                    </label>\n' +
+                '                                    <div class="layui-input-inline">\n' +
+                '                                        <input type="text" name="spec_value[]" required="" lay-verify="required"\n' +
+                '                                               autocomplete="off" class="layui-input">\n' +
+                '                                        <input type="hidden" name="spec_key1[]" value="'+key+'" required="" lay-verify="required"\n' +
+                '                                               autocomplete="off" class="layui-input">\n' +
+                '                                    </div>\n' +
+                '                                    <label class="layui-form-label">\n' +
+                '                                        <span class="x-red">*</span>价格\n' +
+                '                                    </label>\n' +
+                '                                    <div class="layui-input-inline">\n' +
+                '                                        <input type="text" name="spec_price[]" required="" lay-verify="required"\n' +
+                '                                               autocomplete="off" class="layui-input">\n' +
+                '                                    </div>\n' +
+                '                                    <div  class="layui-btn layui-bg-red layui-btn-sm value-del"><i class="layui-icon layui-icon-delete"></i>删除属性</div>\n' +
+                '                                </div>';
+            index.append(text);
+            form.render();
+        });
+        //删除属性
+        $(document).on('click','.value-del',function () {
+            var index = $(this).parent();
+            index.remove();
+            form.render();
+        });
+        //删除规格
+        $(document).on('click','.spec-del',function () {
+            var index = $(this).parent().parent(".layui-form-item");
+            index.remove();
+            form.render();
+        });
+        //重置
+        $(document).on('click','#delSpec',function () {
+            var index = $(this).parent();
+            index.siblings(".layui-form-item").remove();
+            form.render();
+        });
+
+        $(document).on('click','#delSpec2',function () {
+            var index = $(this).parent();
+            index.siblings(".layui-form-item").remove();
+            form.render();
+        });
+
+
+        //监听提交
+        form.on('submit(add)', function (data) {
+            var data = $('#form1').serializeArray();
+            console.log('数据999',data);
+
+            /*$.post('{:url("foods/foodSave")}',data,function (res) {
+                console.log(res);
+            });*/
+            return false;
+        });
+        form.on('submit(add2)', function (data) {
+            var data = $('#form2').serializeArray();
+            console.log('数据999',data);
+
+            // $.post('{:url("foods/foodSave")}',data,function (res) {
+            //     console.log(res);
+            // });
+            return false;
+        });
+        
+
+
+    });
+</script>
+</body>
+
+</html>

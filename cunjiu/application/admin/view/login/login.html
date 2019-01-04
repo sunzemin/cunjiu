@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>后台登录系统</title>
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="__STATIC__/css/font.css">
+	<link rel="stylesheet" href="__STATIC__/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="__STATIC__/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="__STATIC__/js/xadmin.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+
+</head>
+<body class="login-bg">
+    
+    <div class="login layui-anim layui-anim-up">
+        <div class="message">存酒</div>
+        <div id="darkbannerwrap"></div>
+        <form method="post" class="layui-form" id="form1">
+            <input name="admin_name" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input name="admin_pwd" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+            <hr class="hr15">
+            <buttun class="layui-btn" lay-submit lay-filter="login" style="width:100%;" >登录</buttun>	
+            <hr class="hr20" >
+        </form>
+    </div>
+    <script>
+        $(function  () {
+            layui.use('form', function(){
+              var form = layui.form;
+              // layer.msg('玩命卖萌中', function(){
+              //   //关闭后的操作
+              //   });
+              //监听提交
+              form.on('submit(login)', function(data){
+                //var formData = $("#form1").serializeArray();
+              	var admin_name=$('input[name="admin_name"]').val();
+              	var admin_pwd=$('input[name="admin_pwd"]').val();
+              	var md5userpwd=md5(admin_name+md5(admin_pwd));
+                $.post('{:url("Login/login")}',{'admin_name':admin_name,'admin_pwd':md5userpwd},function(res){
+                    console.log(res);
+                    if(res.code==1){
+                        layer.msg(res.msg,{icon:6,time:2000},function(){
+                            location.href='{:url("Index/index")}';
+                        });
+                    }else {
+                        layer.msg(res.msg, {'icon': 5, time: 2000}, function () {
+                            location.href = '{:url("Login/Login")}';
+                        });
+                    }
+                });
+                return false;
+              });
+            });
+        })
+
+        
+    </script>
+    <!-- 底部结束 -->
+</body>
+</html>

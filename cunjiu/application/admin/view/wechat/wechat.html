@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" href="__STATIC__/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="__STATIC__/css/font.css">
+    <link rel="stylesheet" href="__STATIC__/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="__STATIC__/js/xadmin.js"></script>
+</head>
+
+<body>
+
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+  <ul class="layui-tab-title">
+    <li class="layui-this">微信配置</li>
+    <li>支付配置</li>
+  </ul>
+<div class="layui-tab-content">
+	<div class="layui-tab-item layui-show">
+        <form class="layui-form" id="form1">
+            <input type="hidden" name="id" value="{$wechat.id}"/>
+            <div class="layui-form-item">
+                <label for="shop_name" class="layui-form-label">
+                    <span class="x-red">*</span>appID
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="shop_name" name="appID" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input" value="{$wechat.appID}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="shop_admin" class="layui-form-label">
+                    <span class="x-red">*</span>Secret
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="shop_admin" name="secret" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input" value="{$wechat.secret}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                </label>
+                <button class="layui-btn" lay-filter="add" lay-submit="">
+                    保存
+                </button>
+            </div>
+        </form>
+	</div>
+	<div class="layui-tab-item">
+        <form class="layui-form" id="form1">
+            <input type="hidden" name="id" value=""/>
+            <div class="layui-form-item">
+                <label for="shop_name" class="layui-form-label">
+                    <span class="x-red">*</span>appID
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="shop_name" name="appID" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input" value="{$wechat.appID}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="shop_admin" class="layui-form-label">
+                    <span class="x-red">*</span>mch_id
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="shop_admin" name="secret" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input" value="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                </label>
+                <button class="layui-btn" lay-filter="add1" lay-submit="">
+                    保存
+                </button>
+            </div>
+        </form>
+	    </div>
+	</div>
+</div>
+
+<script type="text/javascript">
+    layui.use(['form', 'layer','upload','laydate'], function () {
+        $ = layui.jquery;
+        var form = layui.form
+            , layer = layui.layer
+            ,upload = layui.upload
+            ,laydate = layui.laydate;
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#start' //指定元素
+                ,type:'time'
+                ,min: '00:00:00'
+                ,max: '24:00:00'
+            });
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#end' //指定元素
+                ,type:'time'
+                ,min: '00:00:00'
+                ,max: '24:00:00'
+            });
+        //监听提交
+        form.on('submit(add)', function (data) {
+        	var appID=data.field.appID;
+        	var secret=data.field.secret;
+            //
+            $.post('{:url("Wechat/wechat")}',data.field,function (res) {
+            	console.log(res);
+            	if(res==true){
+            		layer.msg("保存成功", {icon: 5});
+            	}else{
+            		layer.msg("保存失败", {icon: 5});
+            	}
+            });
+            return false;
+        });
+        //监听提交
+        /*form.on('submit(add)', function (data) {
+            console.log(data.field);
+            $.post('{:url("shop/save")}',data.field,function (res) {
+                if (res.code == 1){
+                    layer.alert(res.msg, {icon: 6}, function () {
+                        window.parent.location.reload();
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    });
+                }else {
+                    layer.msg(res.msg, {icon: 5});
+                }
+            });
+            return false;
+        });*/
+    });
+</script>
+</body>
+
+</html>
