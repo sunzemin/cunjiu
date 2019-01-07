@@ -47,6 +47,42 @@ class Common extends Controller{
 		}
 		return $flag;
 	}
+    //处理图片
+    public function upload($file){
+        $info = $file->move( './public/uploads');
+        if ($info) {
+            $result = [
+                'code'     => 1,
+                'msg'      => '上传成功',
+                'filename' => '/uploads/' . str_replace('\\', '/', $info->getSaveName())
+            ];
+            return $result['filename'];
+        } else {
+            return false;
+        }
+    }
+    //上传图片
+    public function uploadimage(){
+	    // 获取表单上传文件 例如上传了001.jpg
+	    $file = request()->file('image');
+	    // 移动到框架应用根目录/public/uploads/ 目录下
+	    if($file){
+	        $info = $file->move('./public/uploads');
+	        if($info){
+	        	$result=[
+	        	    'code'=>1,
+	        	    'msg'=>'上传成功',
+	        	    'filename'=>'/uploads/'.str_replace('\\', '/', $info->getSaveName())
+	        	];
+	        	return $result['filename'];
+	        }else{
+	        	return 111;
+	        }
+	    }else{
+	    	return false;
+	    }
+	    
+	}
 	
 }
 ?>

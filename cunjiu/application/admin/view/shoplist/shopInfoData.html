@@ -29,7 +29,7 @@
   </div>
   <xblock>
     <!--<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>-->
-    <button class="layui-btn" onclick="x_admin_show('添加用户','{:url("Shoplist/shopAdd")}')"><i class="layui-icon"></i>添加</button>
+    <button class="layui-btn" onclick="x_admin_show('添加用户','{:url("Shoplist/shopInfoAdd")}')"><i class="layui-icon"></i>添加</button>
     <span class="x-right" style="line-height:40px">共有数据：88 条</span>
   </xblock>
   <table class="layui-table">
@@ -40,25 +40,27 @@
         </th>
         <th>ID</th>
         <th>店铺名称</th>
-        <th>店铺管理员</th>
+        <th>店铺logo</th>
+        <th>状态</th>
         <th>排序</th>
         <th>操作</th>
     </thead>
     <tbody>
-      {foreach $shopData as $key=>$shop}
+      {foreach $shopInfoData as $key=>$shopinfo}
       <tr>
         <td>
           <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
         </td>
-        <td>{$shop.id}</td>
-        <td>{$shop.shop_name}</td>
-        <td>{$shop.shopadmin.admin_name}</td>
-        <td>{$shop.sort}</td>
+        <td>{$shopinfo.id}</td>
+        <td>{$shopinfo.selshop[0]['shop_name']}</td>
+        <td>{$shopinfo.logo}</td>
+        <td>{$shopinfo.status}</td>
+        <td>{$shopinfo.sort}</td>
         <td class="td-manage">
-          <a title="编辑"  onclick="x_admin_show('编辑','{:url("Shoplist/shopUpdate")}?id='+{$shop.id})" href="javascript:;">
+          <a title="编辑"  onclick="x_admin_show('编辑','{:url("Shoplist/shopUpdate")}?id='+{$shopinfo.id})" href="javascript:;">
             <i class="layui-icon">&#xe642;</i>
           </a>
-          <a title="删除" onclick="member_del(this,'{$shop.id}')" href="javascript:;">
+          <a title="删除" onclick="member_del(this,'{$shopinfo.id}')" href="javascript:;">
             <i class="layui-icon">&#xe640;</i>
           </a>
         </td>
