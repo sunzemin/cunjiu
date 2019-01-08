@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="__STATIC__/css/font.css">
+    <link rel="stylesheet" href="__STATIC__/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="__STATIC__/js/xadmin.js"></script>
+  </head>
+  <body>
+    <div class="x-body">
+        <form class="layui-form">
+        	<input type="hidden" value="{$winerecordInfo.id}" name="winerecordid"/>
+          <div class="layui-form-item">
+              <label for="username" class="layui-form-label">
+                  <span class="x-red">*</span>店铺名称
+              </label>
+              <div class="layui-input-inline">
+              	  <select name="shop_id">
+              	     {volist name="shopList" id="shop"}
+              	     <option value="{$shop.id}">{$shop.shop_name}</option>
+              	     {/volist} 
+              	  </select>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="username" class="layui-form-label">
+                  <span class="x-red">*</span>酒品分类
+              </label>
+              <div class="layui-input-inline">
+              	  <select name="classid">
+              	  	  <option value="0">--请选择分类--</option>
+              	  	  {foreach $wineclassifyInfo as $key=>$wineclassify}
+              	  	  <option value="{$wineclassify.id}">{$wineclassify.classname}</option>
+              	  	  {/foreach}
+              	  </select>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>酒品名称
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" name="winename" required="" lay-verify=""
+                  autocomplete="off" class="layui-input" value="{$winerecordInfo.winename}">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>存酒人
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" name="putpeople" required="" lay-verify=""
+                  autocomplete="off" class="layui-input" value="{$winerecordInfo.putpeople}">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>存酒办理员工
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" name="putworker" required="" lay-verify=""
+                  autocomplete="off" class="layui-input" value="{$winerecordInfo.putworker}">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>取酒人
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" name="takepeople" required="" lay-verify=""
+                  autocomplete="off" class="layui-input" value="{$winerecordInfo.takepeople}">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>取酒办理员工
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" name="takeworker" required="" lay-verify=""
+                  autocomplete="off" class="layui-input" value="{$winerecordInfo.takeworker}">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>排序
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" name="sort" required="" lay-verify=""
+                  autocomplete="off" class="layui-input" value="{$winerecordInfo.sort}">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                                    增加
+              </button>
+          </div>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+          //监听提交
+          form.on('submit(add)', function(data){
+            console.log(data.field);
+            $.post('{:url("Record/winerecordUpdate")}',data.field,function(res){
+            	console.log(res);
+	          	if(res.code==1){
+	          		layer.alert(res.msg, {icon: 6},function () {
+			                parent.location.reload();//父级页面刷新
+			                var index=parent.layer.getFrameIndex(window.name);//获取窗口索引
+			                parent.layer.close(index);
+			            });
+	          	}else{
+	          		layer.alert(res.msg, {icon: 5},function () {
+	          			  parent.location.reload();
+	          			  var index=parent.layer.getFrameIndex(window.name);
+	          			  parent.close(index);
+			            });
+	          	}
+           });
+            //发异步，把数据提交给php
+            return false;
+          });
+         
+        });
+    </script>
+    <script>var _hmt = _hmt || []; (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();</script>
+  </body>
+
+</html>
+

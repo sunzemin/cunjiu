@@ -47,42 +47,53 @@ class Common extends Controller{
 		}
 		return $flag;
 	}
-    //处理图片
-    public function upload($file){
-        $info = $file->move( './public/uploads');
-        if ($info) {
-            $result = [
-                'code'     => 1,
-                'msg'      => '上传成功',
-                'filename' => '/uploads/' . str_replace('\\', '/', $info->getSaveName())
-            ];
-            return $result['filename'];
-        } else {
-            return false;
-        }
-    }
     //上传图片
-    public function uploadimage(){
-	    // 获取表单上传文件 例如上传了001.jpg
-	    $file = request()->file('image');
+    public function upload(){
+        $file = request()->file('file');
 	    // 移动到框架应用根目录/public/uploads/ 目录下
 	    if($file){
-	        $info = $file->move('./public/uploads');
+	        $info = $file->move('./uploads');
 	        if($info){
 	        	$result=[
 	        	    'code'=>1,
 	        	    'msg'=>'上传成功',
 	        	    'filename'=>'/uploads/'.str_replace('\\', '/', $info->getSaveName())
 	        	];
-	        	return $result['filename'];
+	        	return json_encode($result);
 	        }else{
 	        	return 111;
 	        }
 	    }else{
 	    	return false;
 	    }
-	    
+    }
+	//插入时处理时间
+	public function insertTime($startTime){
+		$start_time=strtotime($startTime);
+		return $start_time;
+	} 
+	//判断管理员是否有
+	public function seladminpower($status){
+		$selpower=$this->selpower();
+		if($selpower==true){
+			$workflag=1;
+		}else if($selpower!=''){
+			if($status==1){
+				$varbile='add';
+			}else if($status==2){
+				$varbile='del';
+			}else if($status==3){
+				$varbile='update';
+			}
+			if(isset($selpower[$varbile])){
+				$workflag=1;
+			}else{
+				$workflag=0;
+			}
+		}else{
+			$workflag=0;
+		}
+		return $workflag;
 	}
-	
 }
 ?>

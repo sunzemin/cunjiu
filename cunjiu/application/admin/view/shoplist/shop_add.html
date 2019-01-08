@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" href="__STATIC__/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="__STATIC__/css/font.css">
+    <link rel="stylesheet" href="__STATIC__/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="__STATIC__/js/xadmin.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QOZWOd8ibC5ycpFhge8oVux01j6KbmAE"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="x-body">
+    <div class="layui-row">
+        <div class="layui-col-md4">
+            <form class="layui-form" id="form1">
+                <div class="layui-form-item">
+                    <label for="shop_name" class="layui-form-label">
+                        <span class="x-red">*</span>店铺名称
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="shop_name" name="shop_name" required="" lay-verify="required"
+                               autocomplete="off" class="layui-input">
+                        <input type="hidden" name="id" value="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="shop_admin" class="layui-form-label">
+                        <span class="x-red">*</span>店铺负责人
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="shop_admin" name="shop_admin" required="" lay-verify="required"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="phone" class="layui-form-label">
+                        <span class="x-red">*</span>手机
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="phone" name="phone" required="" lay-verify="phone"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="shop_introduce" class="layui-form-label">
+                        <span class="x-red">*</span>店铺介绍
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="shop_introduce" name="shop_introduce" required="" lay-verify="required"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" id="img">
+                    <label for="image" class="layui-form-label">
+                        <span class="x-red">*</span>logo图片
+                    </label>
+                    <button type="button" class="layui-btn" id="image">
+                        <i class="layui-icon">&#xe67c;</i>选择图片
+                    </button>
+                </div>
+                <div class="layui-form-item" id="ad_img">
+                    <label for="ad_image" class="layui-form-label">
+                        <span class="x-red">*</span>宣传图片
+                    </label>
+                    <button type="button" class="layui-btn" id="ad_image">
+                        <i class="layui-icon">&#xe67c;</i>选择图片
+                    </button>
+                    
+                </div>
+                <div class="layui-form-item">
+                    <label for="address" class="layui-form-label">
+                        <span class="x-red">*</span>地址
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="address" name="address" required="" lay-verify="required"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label  class="layui-form-label">
+                        <span class="x-red">*</span>经纬度
+                    </label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" id="w" name="longitude" placeholder="Lon" required="" lay-verify="required"
+                               autocomplete="off" class="layui-input" readonly="readonly">
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" id="n" name="latitude" placeholder="Lat" required="" lay-verify="required"
+                               autocomplete="off" class="layui-input" value="" readonly="readonly">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="sort" class="layui-form-label">
+                        <span class="x-red">*</span>排序
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="number" id="sort" name="sort" required="" lay-verify="required"
+                               autocomplete="off" value="" class="layui-input" >
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div id="status1" class="layui-input-inline" style="width: 100px;">
+                        <input id="shop_status" type="checkbox" name="shop_status" value="1" lay-skin="switch" lay-text="上线|下线">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <span class="x-red">*</span>营业时间
+                    </label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input class="layui-input" placeholder="开始时间" name="start" id="start" lay-verify="required">
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input class="layui-input" placeholder="截止时间" name="end" id="end" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label for="desc" class="layui-form-label">
+                        店铺公告
+                    </label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" id="desc" name="desc" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                    </label>
+                    <button class="layui-btn" lay-filter="add" lay-submit="">
+                        保存
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="layui-col-md6">
+            <div id="allmap" style="width: 100%;height: 500px"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");
+    map.centerAndZoom("西安市",12);
+    var heng=$("#w").val();
+    var zong=$("#n").val();
+    var point = new BMap.Point(heng,zong);
+    var marker = new BMap.Marker(new BMap.Point(heng,zong));
+    var geoc = new BMap.Geocoder();
+    map.addOverlay(marker);
+    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+    //单击获取点击的经纬度
+    map.addEventListener("click",function(e){
+        map.clearOverlays();
+        var pt = e.point;
+        $("#w").val(e.point.lng);
+        $("#n").val(e.point.lat);
+        geoc.getLocation(pt, function(rs){
+            var addComp = rs.addressComponents;
+            $("#address").val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+            // alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+        });
+        // 百度地图API功能
+        var point = new BMap.Point(e.point.lng,e.point.lat);
+        var marker = new BMap.Marker(new BMap.Point(e.point.lng,e.point.lat)); // 创建点
+        //添加覆盖物
+        map.addOverlay(marker);            //增加点
+    });
+    $("#address").blur(function(){
+        // 创建地址解析器实例
+        var data = $("#address").val();
+        var myGeo = new BMap.Geocoder();
+        // 将地址解析结果显示在地图上,并调整地图视野
+        myGeo.getPoint(data, function(point){
+            if (point) {
+                map.centerAndZoom(point, 16);
+                $("#w").val(point.lng);
+                $("#n").val(point.lat);
+                map.addOverlay(new BMap.Marker(point));
+            }else{
+                alert("您选择地址没有解析到结果!");
+            }
+        }, "西安市");
+    });
+    layui.use(['form', 'layer','upload','laydate'], function () {
+        $ = layui.jquery;
+        var form = layui.form
+            , layer = layui.layer
+            ,upload = layui.upload
+            ,laydate = layui.laydate;
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#start' //指定元素
+                ,type:'time'
+                ,min: '00:00:00'
+                ,max: '24:00:00'
+            });
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#end' //指定元素
+                ,type:'time'
+                ,min: '00:00:00'
+                ,max: '24:00:00'
+            });
+        var uploadInst = upload.render({
+            elem: '#image' //绑定元素
+            ,url: '{:url("shop/shopImage")}' //上传接口
+            ,done: function(res){
+                $('#img').children("img").remove();
+                $('#img').children(".shop_image").remove();
+                $('#img').append("<img src='"+res.filename+"' width='150px' height='60px' alt='...'>");
+                $('#img').append("<input class='shop_image' value='"+res.filename+"'name='shop_image'type='hidden'>");
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+        var uploadInst = upload.render({
+		    elem: '#ad_image' //绑定元素
+		    ,url: '{:url("shop/shopImage")}' //上传接口
+		    ,done: function(res){
+		        //console.log(res.filename);
+		         $('#ad_img').children('img').remove();
+		         $imgstr='<img src="'+res.filename+'" width="150px" height="60px"><input type="hidden" value="'+res.filename+'" name="ad_image">';
+		         $('#ad_img').children('button').after($imgstr);
+		    }
+		    ,error: function(){
+		      //请求异常回调
+		    }
+		 });
+        $("#status1>.layui-unselect").on('click',function(){
+            if($("#shop_status").is(':checked')){
+                $("[name=shop_status]:checkbox").attr("checked", true);
+            }else{
+                $("[name=shop_status]:checkbox").removeAttr("checked");
+            }
+        });
+        $("#status2>.layui-unselect").on('click',function(){
+            if($("#business_status").is(':checked')){
+                $("[name=business_status]:checkbox").attr("checked", true);
+            }else{
+                $("[name=business_status]:checkbox").removeAttr("checked");
+            }
+        });
+        //监听提交
+        form.on('submit(add)', function (data) {
+            console.log(data.field);
+            $.post('{:url("shop/save")}',data.field,function (res) {
+            	console.log(res);
+            	if(res.code==2&&res.code==0){
+            		layer.msg(res.msg, {icon: 5});
+            	}else{
+            		layer.alert(res.msg, {icon: 6}, function () {
+                        window.parent.location.reload();
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    });
+            	}
+            });
+            return false;
+        });
+        
+    });
+</script>
+</body>
+
+</html>

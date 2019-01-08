@@ -17,22 +17,17 @@
 
 <body>
 
-<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-  <ul class="layui-tab-title">
-    <li class="layui-this">微信配置</li>
-    <li>支付配置</li>
-  </ul>
 <div class="layui-tab-content">
 	<div class="layui-tab-item layui-show">
         <form class="layui-form" id="form1">
-            <input type="hidden" name="id" value="{$wechat.id}"/>
+            <input type="hidden" name="id" value="{$weixininfo.id}"/>
             <div class="layui-form-item">
                 <label for="shop_name" class="layui-form-label">
                     <span class="x-red">*</span>appID
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="shop_name" name="appID" required="" lay-verify="required"
-                           autocomplete="off" class="layui-input" value="{$wechat.appID}">
+                    <input type="text" id="shop_name" name="appid" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input" value="{$weixininfo.appid}">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -40,8 +35,8 @@
                     <span class="x-red">*</span>Secret
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="shop_admin" name="secret" required="" lay-verify="required"
-                           autocomplete="off" class="layui-input" value="{$wechat.secret}">
+                    <input type="text" id="shop_admin" name="appsecret" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input" value="{$weixininfo.appsecret}">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -52,37 +47,6 @@
                 </button>
             </div>
         </form>
-	</div>
-	<div class="layui-tab-item">
-        <form class="layui-form" id="form1">
-            <input type="hidden" name="id" value=""/>
-            <div class="layui-form-item">
-                <label for="shop_name" class="layui-form-label">
-                    <span class="x-red">*</span>appID
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="shop_name" name="appID" required="" lay-verify="required"
-                           autocomplete="off" class="layui-input" value="{$wechat.appID}">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="shop_admin" class="layui-form-label">
-                    <span class="x-red">*</span>mch_id
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="shop_admin" name="secret" required="" lay-verify="required"
-                           autocomplete="off" class="layui-input" value="">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">
-                </label>
-                <button class="layui-btn" lay-filter="add1" lay-submit="">
-                    保存
-                </button>
-            </div>
-        </form>
-	    </div>
 	</div>
 </div>
 
@@ -113,32 +77,16 @@
         	var appID=data.field.appID;
         	var secret=data.field.secret;
             //
-            $.post('{:url("Wechat/wechat")}',data.field,function (res) {
+            $.post('{:url("Wechat/weixin")}',data.field,function (res) {
             	console.log(res);
-            	if(res==true){
-            		layer.msg("保存成功", {icon: 5});
+            	if(res.code==1){
+            		layer.msg(res.msg, {icon: 5});
             	}else{
-            		layer.msg("保存失败", {icon: 5});
+            		layer.msg(res.msg, {icon: 5});
             	}
             });
             return false;
         });
-        //监听提交
-        /*form.on('submit(add)', function (data) {
-            console.log(data.field);
-            $.post('{:url("shop/save")}',data.field,function (res) {
-                if (res.code == 1){
-                    layer.alert(res.msg, {icon: 6}, function () {
-                        window.parent.location.reload();
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
-                    });
-                }else {
-                    layer.msg(res.msg, {icon: 5});
-                }
-            });
-            return false;
-        });*/
     });
 </script>
 </body>

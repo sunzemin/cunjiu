@@ -135,19 +135,59 @@ class Shoplist extends Common{
 		//查询 所有的店铺信息
 		$shopData=Shop::all();
 		$this->assign('shopData',$shopData);
+		if(request()->isPost()){
+			$start_time=input('param.start_time');
+			$end_time=input('param.over_time');
+			$startTime=$this->insertTime($start_time);
+			$overTime=$this->insertTime($end_time);
+			$data['start_time']=$startTime;
+			$data['over_time']=$overTime;
+			$data['address']=input('param.address');
+			$data['logo']=input('param.imagepath');
+			$data['introduce']=input('param.introduce');
+			$data['latitude']=input('param.latitude');
+			$data['longitude']=input('param.longitude');
+			$data['phone']=input('param.phone');
+			$data['shopid']=input('param.shopid');
+			$data['sort']=input('param.sort');
+			//return json($data);
+			$shopinfoid=input('param.shopinfoid');
+			if($shopinfoid==''){
+				//说明没有此店详情进行添加操作
+				$shopInfoM=new Shopinfo();
+				$addres=$shopInfoM->save($data);
+			}else{
+				//说明此数据存在进行修改
+				$addres=Shopinfo::where('id',$shopinfoid)->update($data);	
+			}
+			if($addres){
+				$res=[
+				    'code'=>1,
+				    'msg'=>'保存成功'
+				];
+			}else{
+				$res=[
+				    'code'=>0,
+				    'msg'=>'保存失败'   
+				];
+			}
+			return json($res);
+		}
+		return $this->fetch();
+	}
+	//查询该店铺的详情
+	public function selectShopInfo(){
 		
+		$shopid=input('post.shopid');
+		$shopInfo=Shopinfo::where('shopid',$shopid)->find();
+        $shopInfo['start_time']=date('H:i:s',$shopInfo['start_time']);
+        $shopInfo['over_time']=date('H:i:s',$shopInfo['over_time']);
+		return $shopInfo;
+	}
+	public function shop_add(){
 		return $this->fetch();
 	}
-	//===============================
-	public function test(){
-		return $this->fetch();
-	}
-	public function shopImage(){
-        $file = request()->file();
-        /*$ret = $this->upload($file);
-        return json($ret);*/
-        return json_encode($file);
-    }
+	
 	//判断管理员是否有
 	public function seladminpower($status){
 		$selpower=$this->selpower();
